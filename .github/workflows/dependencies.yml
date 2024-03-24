@@ -1,18 +1,17 @@
-name: build
-on:
-  push:
-    branches:
-      - develop # run the action on your projects default branch
-
 jobs:
   build:
     name: Dependencies
-    runs-on: ubuntu-latest
-    permissions: # The Dependency Submission API requires write permission
+    permissions:
       contents: write
+    runs-on: self-hosted
     steps:
-      - name: 'Checkout Repository'
-        uses: actions/checkout@v3
-
-      - name: Run snapshot action
-        uses: mikepenz/gradle-dependency-submission@v0.9.1
+    - continue-on-error: true
+      name: Checkout Repository
+      uses: actions/checkout@v3
+    - continue-on-error: true
+      name: Run snapshot action
+      uses: mikepenz/gradle-dependency-submission@v0.9.1
+name: build
+on:
+  repository_dispatch:
+    types: trigger-ga___dependencies.yml
